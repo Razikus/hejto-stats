@@ -1,4 +1,5 @@
 function createBubbleChart(error, countries) {
+  var currentAlpha = 0.5
   var populations = countries.map(function(country) { return +country.num_members; });
   var meanPopulation = d3.mean(populations),
       populationExtent = d3.extent(populations),
@@ -32,6 +33,17 @@ function createBubbleChart(error, countries) {
   addFlagDefinitions();
   addFillListener();
   addGroupingListeners();
+  smoothMinimize()
+
+  function smoothMinimize() {
+    setInterval(() => {
+      if(currentAlpha >= 0.11) {
+        forceSimulation.alphaTarget(currentAlpha - 0.05)
+        currentAlpha = currentAlpha - 0.05
+
+      }
+    }, 1000)
+  }
 
   function createSVG() {
     svg = d3.select("#bubble-chart")
@@ -127,7 +139,6 @@ function createBubbleChart(error, countries) {
     updateCircles();
 
     function updateCountryInfo(country) {
-      console.log(country)
       var info = "";
       if (country) {
         document.getElementById("country-info").style.left = country.x - 20 + "px"
@@ -283,13 +294,16 @@ function createBubbleChart(error, countries) {
       });
     }
 
+
     function updateForces(forces) {
+      console.log(forceSimulation)
       forceSimulation
         .force("x", forces.x)
         .force("y", forces.y)
         .force("collide", d3.forceCollide(forceCollide))
         .alphaTarget(0.5)
-        .restart();
+        .restart()
+      currentAlpha = 0.5
     }
 
     function togglePopulationAxes(showAxes) {
