@@ -8,7 +8,7 @@ function createBubbleChart(error, countries) {
 
   var continents = d3.set(countries.map(function(country) { return country.category; }));
   let schemeCategory20 = d3.schemeCategory20
-  schemeCategory20.push(["#000000"])
+  schemeCategory20.push(["#5e39a8"])
   schemeCategory20.push(["#af30f3"])
   var continentColorScale = d3.scaleOrdinal(schemeCategory20)
         .domain(continents.values());
