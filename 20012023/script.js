@@ -43,6 +43,13 @@ function createBubbleChart(error, countries) {
 
       }
     }, 1000)
+    setInterval(() => {
+      if(currentAlpha <= 0.11 && currentAlpha >= 0.01) {
+        forceSimulation.alphaTarget(currentAlpha - 0.01)
+        currentAlpha = currentAlpha - 0.01
+
+      }
+    }, 1000)
   }
 
   function createSVG() {
